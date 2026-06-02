@@ -1,0 +1,24 @@
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>백엔드 시작 페이지</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<section class="card">
+  <h2>나의 첫 저장 폼 만들기</h2>
+  <p>언젠가는 이 입력값을 서버에 저장할 수 있습니다.</p>
+
+  <form>
+    <label for="nickname">닉네임</label>
+    <input id="nickname" name="nickname" type="text" placeholder="닉네임" />
+
+    <label for="interest">배우고 싶은 기술</label>
+    <input id="interest" name="interest" type="text" placeholder="Spring Boot" />
+
+    <button type="submit">저장하기</button>
+  </form>
+
+  <p class="message success">저장 성공: 입력한 내용을 화면에 표시했습니다.</p>
+  <p class="message error">저장 실패: 입력값을 다시 확인해 주세요.</p>
+</section>
