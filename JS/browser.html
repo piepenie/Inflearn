@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JavaScript Day 1</title>
+  </head>
+  <body>
+    <h1>JavaScript 실행 확인</h1>
+    <button id="helloButton">인사하기</button>
+
+    <script>
+      const button = document.querySelector("#helloButton");
+
+      button.addEventListener("click", function () {
+        alert("브라우저에서 JavaScript가 실행되었습니다.");
+        console.log("버튼을 클릭했습니다.");
+      });
+    </script>
+  </body>
+</html>
