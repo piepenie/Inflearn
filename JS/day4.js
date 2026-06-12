@@ -120,18 +120,18 @@
 
 /////////// 10 << 어려워 ㅠㅠㅠ 
 
-// function makeBorderSquare(n){
-//   for(i=1; i<=n; i++){
-//     let star = "";
-//     let space = "";
-//     for(j=1; j<=n; j++){
-//       star += "*";
-//     }
-//     console.log(star)
-//   }
-// }
+function makeBorderSquare(n){
+  for(i=1; i<=n; i++){
+    let star = "";
+    let space = "";
+    for(j=1; j<=n; j++){
+      star += "*";
+    }
+    console.log(star)
+  }
+}
 
-// makeBorderSquare(4)
+makeBorderSquare(4)
 
 /////////// 11
 
