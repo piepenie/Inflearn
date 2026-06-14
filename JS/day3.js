@@ -37,14 +37,14 @@
 // console.log(c, typeof c);
 // console.log(d, typeof d);
 
-console.log(
-  true, !true, false, !false
-);
+// console.log(
+//   true, !true, false, !false
+// );
 
-console.log(
-  true, !true, !!true, !!!true
-);
+// console.log(
+//   true, !true, !!true, !!!true
+// );
 
-console.log(
-  false, !false, !!false, !!!false
-);
+// console.log(
+//   false, !false, !!false, !!!false
+// );
