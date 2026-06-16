@@ -156,8 +156,6 @@ app.post("/students", function (request, response) {
   response.status(201).json(newStudent);
 });
 
-
-
 app.put("/students/:id", function (request, response) {
   const id = Number(request.params.id);
 
