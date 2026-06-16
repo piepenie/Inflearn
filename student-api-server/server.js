@@ -64,12 +64,12 @@ app.get("/students/example", function (request, response){
   });
 });
 
-app.get("/students/preview", function (request, response){
-  response.json({
+// app.get("/students/preview", function (request, response){
+//   response.json({
     
 
-  });
-});
+//   });
+// });
 
 app.get("/students/top", function (request, response) {
   let topStudent = students[0];
@@ -154,6 +154,156 @@ app.post("/students", function (request, response) {
   students.push(newStudent);
 
   response.status(201).json(newStudent);
+});
+
+
+
+app.put("/students/:id", function (request, response) {
+  const id = Number(request.params.id);
+
+  if (!Number.isInteger(id)) {
+    response.status(400).json({
+      message: "id는 숫자여야 합니다.",
+    });
+    return;
+  }
+
+  let studentIndex = -1;
+
+  for (let index = 0; index < students.length; index++) {
+    if (students[index].id === id) {
+      studentIndex = index;
+    }
+  }
+
+  if (studentIndex === -1) {
+    response.status(404).json({
+      message: "학생을 찾을 수 없습니다.",
+    });
+    return;
+  }
+
+  const body = request.body || {};
+  const name = body.name;
+  const score = body.score;
+
+  if (
+    typeof name !== "string" ||
+    name.trim() === "" ||
+    typeof score !== "number" ||
+    !Number.isFinite(score)
+  ) {
+    response.status(400).json({
+      message: "name과 숫자 score를 입력해야 합니다.",
+    });
+    return;
+  }
+
+  const updatedStudent = {
+    id: id,
+    name: name.trim(),
+    score: score,
+  };
+
+  students[studentIndex] = updatedStudent;
+
+  response.json(updatedStudent);
+});
+
+app.patch("/students/:id", function (request, response) {
+  const id = Number(request.params.id);
+
+  if (!Number.isInteger(id)) {
+    response.status(400).json({
+      message: "id는 숫자여야 합니다.",
+    });
+    return;
+  }
+
+  let student = undefined;
+
+  for (let index = 0; index < students.length; index++) {
+    if (students[index].id === id) {
+      student = students[index];
+    }
+  }
+
+  if (student === undefined) {
+    response.status(404).json({
+      message: "학생을 찾을 수 없습니다.",
+    });
+    return;
+  }
+
+  const body = request.body || {};
+  const name = body.name;
+  const score = body.score;
+  const hasName = name !== undefined;
+  const hasScore = score !== undefined;
+
+  if (!hasName && !hasScore) {
+    response.status(400).json({
+      message: "수정할 name 또는 score를 입력해야 합니다.",
+    });
+    return;
+  }
+
+  if (hasName && (typeof name !== "string" || name.trim() === "")) {
+    response.status(400).json({
+      message: "name은 비어 있지 않은 문자열이어야 합니다.",
+    });
+    return;
+  }
+
+  if (hasScore && (typeof score !== "number" || !Number.isFinite(score))) {
+    response.status(400).json({
+      message: "score는 숫자여야 합니다.",
+    });
+    return;
+  }
+
+  if (hasName) {
+    student.name = name.trim();
+  }
+
+  if (hasScore) {
+    student.score = score;
+  }
+
+  response.json(student);
+});
+
+app.delete("/students/:id", function (request, response) {
+  const id = Number(request.params.id);
+
+  if (!Number.isInteger(id)) {
+    response.status(400).json({
+      message: "id는 숫자여야 합니다.",
+    });
+    return;
+  }
+
+  let studentIndex = -1;
+
+  for (let index = 0; index < students.length; index++) {
+    if (students[index].id === id) {
+      studentIndex = index;
+    }
+  }
+
+  if (studentIndex === -1) {
+    response.status(404).json({
+      message: "학생을 찾을 수 없습니다.",
+    });
+    return;
+  }
+
+  const deletedStudents = students.splice(studentIndex, 1);
+
+  response.json({
+    message: "학생을 삭제했습니다.",
+    student: deletedStudents[0],
+  });
 });
 
 app.use(function (request, response) {
