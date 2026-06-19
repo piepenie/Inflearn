@@ -142,6 +142,27 @@ app.get("/students", async function (request, response, next) {
 
 app.post("/students", async function (request, response, next) {
   try {
+    const body = readStudentBody(request.body);
+    const name = body.name;
+    const score = body.score;
+
+    if(!name || score === undefined){
+      response.status(400).json({
+        message: "name과 score를 확인해주세요.",
+      });
+      return;
+    }
+
+    const [result] = await pool.query(
+      "INSERT INTO students (name, score) VALUES (?, ?)",
+      [name.trim(), score]
+    );
+
+    const id = result.insertId;
+
+    const newStudent = await findStudentById(result.insertId);
+
+    response.status(201).json(newStudent);
     // TODO:
     // 1. readStudentBody(request.body)로 body를 검사합니다.
     // 2. 올바르지 않으면 400으로 응답합니다.
