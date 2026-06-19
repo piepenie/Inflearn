@@ -91,16 +91,16 @@ app.get("/students/search", async function (request, response, next) {
     const minScore = Number(request.query.minScore);
     const maxScore = Number(request.query.maxScore);
 
-    if (!Number.isFinite(minScore) || !Number.isFinite(maxScore)){
+    if (!Number.isFinite(minScore) || !Number.isFinite(maxScore)) {
       response.status(400).json({
          message: "minScore와 maxScore는 숫자여야 합니다.",
       });
       return;
     }
 
-    if (minScore > maxScore){
+    if (minScore > maxScore) {
       response.status(400).json({
-        message: "minScore는 maxScore 보다 클 수 없습니다."
+        message: "minScore는 maxScore 보다 클 수 없습니다.",
       });
       return;
     }
@@ -146,7 +146,7 @@ app.post("/students", async function (request, response, next) {
     const name = body.name;
     const score = body.score;
 
-    if(!name || score === undefined){
+    if (!name || score === undefined) {
       response.status(400).json({
         message: "name과 score를 확인해주세요.",
       });
@@ -178,6 +178,25 @@ app.post("/students", async function (request, response, next) {
 
 app.get("/students/:id", async function (request, response, next) {
   try {
+    const id = Number(request.params.id);
+
+    if (!Number.isInteger(id)) {
+      response.status(400).json({
+        message: "id를 확인해주세요.",
+      });
+      return;
+    }
+
+    const student = await findStudentById(id);
+
+    if (student === undefined) {
+      response.status(404).json({
+        message: "학생을 찾을 수 없습니다.",
+      });
+      return;
+    }
+
+    response.json(student);
     // TODO:
     // 1. request.params.id를 정수로 바꿉니다.
     // 2. 정수가 아니면 400으로 응답합니다.
@@ -192,6 +211,49 @@ app.get("/students/:id", async function (request, response, next) {
 
 app.patch("/students/:id", async function (request, response, next) {
   try {
+    const id = Number(request.params.id);
+
+    if (!Number.isInteger(id)) {
+      response.status(400).json({
+        message: "id를 확인해주세요.",
+      });
+      return;
+    }
+
+    const currentStudent = await findStudentById(id);
+
+    if (currentStudent === undefined) {
+      response.status(404).json({
+        message: "학생을 확인해주세요.",
+      });
+      return;
+    }
+
+    const body = readStudentBody(request.body);
+    const name = body.name;
+    const score = body.score;
+    const hasName = name !== undefined;
+    const hasScore = score !== undefined;
+
+    if (!hasName || !hasScore) {
+      response.status(400).json({
+        message: "수정할 name과 score를 확인해주세요.",
+      });
+      return;
+    }
+
+    const updatedName = hasName ? name.trim() : currentStudent.name;
+    const updatedScore = hasScore ? score : currentStudent.score;
+
+    await pool.query(
+      "UPDATE students SET name = ?, score = ? WHERE id = ?",
+      [updatedName, updatedScore, id]
+    );
+
+    const updatedStudent = await findStudentById(id);
+
+    response.json(updatedStudent);
+
     // TODO:
     // 1. id를 검사합니다.
     // 2. 수정할 학생이 있는지 조회합니다.
@@ -206,6 +268,30 @@ app.patch("/students/:id", async function (request, response, next) {
 
 app.delete("/students/:id", async function (request, response, next) {
   try {
+    const id = Number(request.params.id);
+
+    if (!Number.isInteger(id)) {
+      response.status(400).json({
+        message: "id는 숫자여야 합니다.",
+      });
+      return;
+    }
+
+    const student = await findStudentById(id);
+
+    if (student === undefined) {
+      response.status(404).json({
+        message: "학생을 찾을 수 없습니다.",
+    });
+    return;
+    }
+    
+    await pool.query("DELETE FROM students WHERE id = ?", [id]);
+
+    response.json({
+      message: "학생을 삭제했습니다.",
+      student: student,
+    });
     // TODO:
     // 1. id를 검사합니다.
     // 2. 삭제할 학생이 있는지 먼저 조회합니다.
