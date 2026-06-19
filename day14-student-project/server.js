@@ -125,6 +125,11 @@ app.get("/students/search", async function (request, response, next) {
 
 app.get("/students", async function (request, response, next) {
   try {
+    const [rows] = await pool.query(
+      "SELECT id, name, score FROM students ORDER BY id ASC"
+    );
+
+    response.json(rows);
     // TODO:
     // 1. students table에서 id, name, score를 조회합니다.
     // 2. id 오름차순으로 정렬합니다.
