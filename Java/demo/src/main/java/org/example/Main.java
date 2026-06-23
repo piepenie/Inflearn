@@ -140,5 +140,20 @@ public class Main {
 //            System.out.println("*".repeat(i));
 //        }
 
+//        String studentName = "김하나";
+//        int studentAge = 20;
+//        int studentScore = 87;
+//
+//        System.out.println(studentName + " / " + studentAge + "세 / " + studentScore + "점");
+
+//        Student student = new Student();
+//        student.name = "김하나";
+//        student.age = 20;
+//        student.score = 87;
+//
+//        System.out.println(student.name);
+//        System.out.println(student.age);
+//        System.out.println(student.score);
+
     }
 }
