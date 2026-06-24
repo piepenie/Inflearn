@@ -155,5 +155,12 @@ public class Main {
 //        System.out.println(student.age);
 //        System.out.println(student.score);
 
+// 클래스는 설계도다.
+// 절대 클래스에 . 붙이지마라.
+// public 전체 공개 : 어떤 클래스든 접근이 가능
+// default 같은 패키지만 : 오직 같은 폴더에 있는 클래스 끼리만 공유
+// private 비공개 : 오직 자기 클래스 내부에서만 가능
+// protected 같은 패키지 + 상속 : 같은 폴더 + 상속 받은 클래스에서 사용가능
+
     }
 }
