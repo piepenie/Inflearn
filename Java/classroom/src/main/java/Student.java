@@ -10,12 +10,25 @@ public class Student {
 
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public int getScore(){
+    public String getName() {
+        return name;
+    }
+
+    public int getScore() {
         return score;
     }
+
+    public void changeScore(int score) {
+        if(score < 0 || score > 100) {
+            throw new IllegalArgumentException("점수는 0보다 작거나 100보다 크면 안됩니다.");
+        }
+        this.score = score;
+    }
+
+
 
 }
