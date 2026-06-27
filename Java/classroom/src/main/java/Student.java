@@ -1,11 +1,12 @@
 public class Student {
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private int score;
 
     public Student(int id, String name, int score) {
         this.id = id;
         this.name = name;
+        changeScore(score);
         this.score = score;
 
     }
@@ -20,6 +21,19 @@ public class Student {
 
     public int getScore() {
         return score;
+    }
+
+    public void updateScore(int score) {
+        changeScore(score);
+        this.score = score;
+    }
+
+    public PassStatus getPassStatus() {
+        if (this.score >= 60) {
+            return PassStatus.PASSED;
+        } else {
+            return PassStatus.FAILED;
+        }
     }
 
     public void changeScore(int score) {
