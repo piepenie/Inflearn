@@ -29,6 +29,10 @@ public class Student {
         this.score = score;
     }
 
+    @Override
+    public String toString() {
+        return id + " / " + name + " / " + score + "점";
+    }
 
 
 }
