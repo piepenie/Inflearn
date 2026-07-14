@@ -1,0 +1,7 @@
+예외 처리 오류
+
+대상 : String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+내가 생각한거 : String errorMessage = ex.getBindingResult().getFieldError().stream()
+실제결과 : 메서드 호출이안됨
+해결방법 : getFieldError() >> getFieldErrors() 로 변경
+>> 이유 객체 하나에 .stream() 을 붙일 수 없음. 모든 에러를 List 로 끌고오는 Erros 가 필요햇음.
